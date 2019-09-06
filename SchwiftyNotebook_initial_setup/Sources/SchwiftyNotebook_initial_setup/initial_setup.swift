@@ -97,6 +97,8 @@ public func loadMNISTData(path:Path, flat:Bool = false)
     )
 }
 
+public let mnistPath = Path.home/".machine-learning"/"data"/"mnist_home"
+
 import Dispatch
 
 // ⏰Time how long it takes to run the specified function, optionally taking
