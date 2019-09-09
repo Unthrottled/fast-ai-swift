@@ -9,7 +9,7 @@ file to edit: matrix_multiplication.ipynb
 import Path
 import TensorFlow
 
-func normalizeTensor<T:TensorFlowFloatingPoint>(tensor: Tensor<T>)-> Tensor<T>{
+public func normalizeTensor<T:TensorFlowFloatingPoint>(tensor: Tensor<T>)-> Tensor<T>{
     return (tensor - tensor.mean())/tensor.standardDeviation()
 }
 
@@ -29,5 +29,20 @@ struct AssertionError: Error {
 func assert(toAssert: Bool, message: String = "Not True!") throws {
     if(!toAssert){
         throw AssertionError(message)
+    }
+}
+
+public extension StringTensor {
+    // Read a file into a Tensor.
+    init(readFile filename: String) {
+        self.init(readFile: StringTensor(filename))
+    }
+    init(readFile filename: StringTensor) {
+        self = Raw.readFile(filename: filename)
+    }
+
+    // Decode a StringTensor holding a JPEG file into a Tensor<UInt8>.
+    func decodeJpeg(channels: Int = 0) -> Tensor<UInt8> {
+        return Raw.decodeJpeg(contents: self, channels: Int64(channels), dctMethod: "") 
     }
 }
