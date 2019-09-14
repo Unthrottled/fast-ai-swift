@@ -6,29 +6,14 @@ sudo apt-get -y install apt-fast
 
 sudo apt-fast -y upgrade
 
-sudo apt-fast install -y ubuntu-drivers-common libvorbis-dev libflac-dev libsndfile-dev cmake build-essential libgflags-dev libgoogle-glog-dev libgtest-dev google-mock zlib1g-dev libeigen3-dev libboost-all-dev libasound2-dev libogg-dev libtool libfftw3-dev libbz2-dev liblzma-dev libgoogle-glog0v5 gcc-6 gfortran-6 g++-6 doxygen graphviz libsox-fmt-all parallel exuberant-ctags vim-nox python-powerline python3-pip ack lsyncd
-sudo apt-fast install -y tigervnc-standalone-server firefox mesa-common-dev
-
-sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6   40 --slave /usr/bin/g++ g++ /usr/bin/g++-6 --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-6
-sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7   40 --slave /usr/bin/g++ g++ /usr/bin/g++-7 --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-7
-
-cd
-mkdir Download
-cd Download/
-
-wget https://repo.anaconda.com/archive/Anaconda3-2019.07-Linux-x86_64.sh
-# let installer conda init
-bash Anaconda3-*.sh 
-source ~/.bashrc
-
-
 # Driver install
 #####################################
 # should not print anything
 lsmod | grep nouveau 
 
-wget http://developer.download.nvidia.com/compute/cuda/10.1/Prod/local_installers/cuda_10.1.243_418.87.00_linux.run
-sudo bash cuda_10.1.243_418.87.00_linux.run
+wget http://developer.download.nvidia.com/compute/cuda/10.0/Prod/patches/1/cuda_10.0.130.1_linux.run
+# wget http://developer.download.nvidia.com/compute/cuda/10.1/Prod/local_installers/cuda_10.1.243_418.87.00_linux.run
+# sudo bash cuda_10.1.243_418.87.00_linux.run
 echo /usr/local/cuda/lib64 | sudo tee -a /etc/ld.so.conf 
 sudo ldconfig
 echo 'export PATH=/usr/local/cuda/bin:$PATH' >> ~/.bashrc
@@ -44,6 +29,24 @@ sudo chmod a+r /usr/local/cuda/include/cudnn.h /usr/local/cuda/lib64/libcudnn*
 sudo ldconfig
 
 #####################################
+
+
+
+sudo apt-fast install -y ubuntu-drivers-common libvorbis-dev libflac-dev libsndfile-dev cmake build-essential libgflags-dev libgoogle-glog-dev libgtest-dev google-mock zlib1g-dev libeigen3-dev libboost-all-dev libasound2-dev libogg-dev libtool libfftw3-dev libbz2-dev liblzma-dev libgoogle-glog0v5 gcc-6 gfortran-6 g++-6 doxygen graphviz libsox-fmt-all parallel exuberant-ctags vim-nox python-powerline python3-pip ack lsyncd
+sudo apt-fast install -y tigervnc-standalone-server firefox mesa-common-dev
+
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6   40 --slave /usr/bin/g++ g++ /usr/bin/g++-6 --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-6
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7   40 --slave /usr/bin/g++ g++ /usr/bin/g++-7 --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-7
+
+cd
+mkdir Download
+cd Download/
+
+wget https://repo.anaconda.com/archive/Anaconda3-2019.07-Linux-x86_64.sh
+# let installer conda init
+bash Anaconda3-*.sh 
+source ~/.bashrc
+
 
 sudo apt-fast -y install git cmake ninja-build clang python uuid-dev libicu-dev icu-devtools libbsd-dev libedit-dev libxml2-dev libsqlite3-dev swig libpython-dev libncurses5-dev pkg-config libblocksruntime-dev libcurl4-openssl-dev systemtap-sdt-dev tzdata rsync
 
