@@ -26,8 +26,6 @@ wget http://developer.download.nvidia.com/compute/cuda/10.0/Prod/patches/1/cuda_
 #Don't need the display drivers or OpenGL library
 sudo bash sudo bash cuda_10.0.130_410.48_linux
 sudo bash cuda_10.0.130.1_linux.run
-# wget http://developer.download.nvidia.com/compute/cuda/10.1/Prod/local_installers/cuda_10.1.243_418.87.00_linux.run
-# sudo bash cuda_10.1.243_418.87.00_linux.run
 echo /usr/local/cuda/lib64 | sudo tee -a /etc/ld.so.conf 
 sudo ldconfig
 echo 'export PATH=/usr/local/cuda/bin:$PATH' >> ~/.bashrc
@@ -59,8 +57,6 @@ conda install jupyter numpy matplotlib
 
 
 # swift stuff below
-# wget https://storage.googleapis.com/swift-tensorflow-artifacts/nightlies/latest/swift-tensorflow-DEVELOPMENT-cuda10.0-cudnn7-ubuntu18.04.tar.gz
-# tar xf swift-tensorflow-DEVELOPMENT-cuda10.0-cudnn7-ubuntu18.04.tar.gz
 wget https://storage.googleapis.com/swift-tensorflow-artifacts/releases/v0.4/rc4/swift-tensorflow-RELEASE-0.4-cuda10.0-cudnn7-ubuntu18.04.tar.gz
 tar xf swift-tensorflow-RELEASE-*
 mkdir ~/swift
