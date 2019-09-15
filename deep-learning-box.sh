@@ -79,11 +79,52 @@ git clone git@github.com:cyclic-reference/fast-ai-swift.git
 git clone git@github.com:cyclic-reference/course-v3.git
 
 
+sudo apt install zsh
+
+sh -c "$(wget -O- https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+cat << 'EOF' >> ~/.bashrc
+export SHELL=/bin/zsh
+exec /bin/zsh -l
+EOF
+source ~/.bashrc
+cat << 'EOF' >> ~/.zshrc
+alias ll="ls -la"
+alias gs="git status"
+alias gps="git push"
+alias gcm="git commit -a -m "
+alias gpm="git pull origin master"
+alias ga="git add -A ."
+alias gp="git pull"
+alias gc="git checkout"
+alias gl="git log -n"
+alias gst="git stash"
+alias chrome-broke="rm -r ~/.config/google-chrome/*"
+alias yi="yarn install"
+alias ys="yarn start"
+alias yeet="yarn test -u"
+alias yt="yarn test"
+alias dc="docker-compose"
+alias dcl="docker-compose logs -f"
+
+alias tarUnzip="tar -xvzf"
+alias dcd="docker-compose -f docker-compose-dev.yml"
+EOF
+
+# Custom ZSH Stuff (too lazy to write script to put these in.)
+#ZSH_THEME="norm"
+#plugins=(git zsh-autosuggestions zsh-syntax-highlighting colored-man-pages colorize lol aws)
+
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+source ~/.zshrc
+
+
 jupyter notebook --generate-config
 cat << 'EOF' >> ~/.jupyter/jupyter_notebook_config.py
 c.NotebookApp.open_browser = False
 c.NotebookApp.token = ''
 EOF
+
 pip install jupyter_contrib_nbextensions
 jupyter contrib nbextension install --user
 jupyter nbextension enable collapsible_headings/main
