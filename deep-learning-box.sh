@@ -70,9 +70,6 @@ sudo ldconfig
 echo 'export PATH=/usr/local/cuda/bin:$PATH' >> ~/.zshrc
 sudo reboot
 
-
-# Did not do this yet
-# wget http://files.fast.ai/files/cudnn-10.1-linux-x64-v7.6.3.30.tgz
 wget http://files.fast.ai/files/cudnn-10.0-linux-x64-v7.6.1.34.tgz
 tar xf cudnn-10*.tgz
 
