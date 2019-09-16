@@ -63,8 +63,8 @@ lsmod | grep nouveau
 wget https://developer.nvidia.com/compute/cuda/10.0/Prod/local_installers/cuda_10.0.130_410.48_linux
 wget http://developer.download.nvidia.com/compute/cuda/10.0/Prod/patches/1/cuda_10.0.130.1_linux.run
 #Don't need the display drivers or OpenGL library
-sudo bash sudo bash cuda_10.0.130_410.48_linux
-sudo bash cuda_10.0.130.1_linux.run
+sudo zsh cuda_10.0.130_410.48_linux
+sudo zsh cuda_10.0.130.1_linux.run
 echo /usr/local/cuda/lib64 | sudo tee -a /etc/ld.so.conf 
 sudo ldconfig
 echo 'export PATH=/usr/local/cuda/bin:$PATH' >> ~/.zshrc
@@ -82,7 +82,7 @@ sudo ldconfig
 
 wget https://repo.anaconda.com/archive/Anaconda3-2019.07-Linux-x86_64.sh
 # let installer run cconda init
-bash Anaconda3-*.sh 
+zsh Anaconda3-*.sh 
 source ~/.zshrc
 
 conda create -n swift-env python=3.6
