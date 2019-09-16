@@ -134,4 +134,5 @@ cd swift-jupyter
 python register.py --sys-prefix --swift-python-use-conda --use-conda-shared-libs   --swift-toolchain ~/swift
 
 cd ~/workspace/
-jupyter notebook --ip=0.0.0.0
+# Make sure that the conda (swift-env) is active 
+nohup jupyter notebook --ip=0.0.0.0 > jupyter.log & 
