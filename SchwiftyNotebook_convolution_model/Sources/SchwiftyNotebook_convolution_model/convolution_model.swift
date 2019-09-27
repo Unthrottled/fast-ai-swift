@@ -25,7 +25,7 @@ public func assertNearZero(_ tensor: TensorFloat, _ threshold: Float = 1e-3){
 
 import Dispatch
 
-func getTimeUnit(_ nanoSeconds: Double) -> String {
+public func getTimeUnit(_ nanoSeconds: Double) -> String {
     let powerOfTen = floor(log10(nanoSeconds))
     switch powerOfTen {
         case 1..<3:
@@ -75,31 +75,31 @@ public func assertEquals(_ a: TensorFloat, _ b: TensorFloat, _ message: String) 
     assertNearZero(a-b)
 }
 
-func squaredWithGradient(inputTensor: TensorFloat) -> (value: TensorFloat, 
+public func squaredWithGradient(inputTensor: TensorFloat) -> (value: TensorFloat, 
                                                        gradientChain: (TensorFloat) -> TensorFloat) {
     return (value: inputTensor * inputTensor, 
             gradientChain: {ddx in 2 * inputTensor * ddx})
 }
 
-func meanWithGradient(inputTensor: TensorFloat) -> (value: TensorFloat, 
+public func meanWithGradient(inputTensor: TensorFloat) -> (value: TensorFloat, 
                                                        gradientChain: (TensorFloat) -> TensorFloat) {
  let totalElements = Float(inputTensor.shape.dimensions.reduce(1) { accum, thing in accum * thing })
  return (value: inputTensor.sum(squeezingAxes: Array(inputTensor.shape.indices)) / totalElements,
          gradientChain: {ddx in TensorFloat([1]) / totalElements * ddx})   
 }
 
-func reLUAndGradient(inputTensor: TensorFloat) -> (value: TensorFloat, 
+public func reLUAndGradient(inputTensor: TensorFloat) -> (value: TensorFloat, 
                                                    gradientChain: (TensorFloat) -> TensorFloat){
     return (value: max(0.0, inputTensor), 
             gradientChain: {ddx in ddx.replacing(with: TensorFloat(zeros: ddx.shape), where: inputTensor .< 0.0 )})
 }
 
-func leakyRelu<T: TensorFlowFloatingPoint>(inputTensor: Tensor<T>,
+public func leakyRelu<T: TensorFlowFloatingPoint>(inputTensor: Tensor<T>,
                                            negativeSlope: Double) -> Tensor<T> {
     return max(0, inputTensor) + T(negativeSlope) * min(0, inputTensor)
 }
 
-func leakyReLUAndGradient(inputTensor: TensorFloat,
+public func leakyReLUAndGradient(inputTensor: TensorFloat,
                           negativeSlope: Double = 0.0) -> (value: TensorFloat,
                                                    // We only really care about the derivative with respect to the input
                                                    gradientChain: (TensorFloat) -> TensorFloat){
@@ -113,7 +113,7 @@ func leakyReLUAndGradient(inputTensor: TensorFloat,
 
 // ddx shape = M x O
 
-func linearCombinationAndGradient(inputTensor: TensorFloat, 
+public func linearCombinationAndGradient(inputTensor: TensorFloat, 
                                   weightParameter: TensorFloat,
                                   biasParameter: TensorFloat) -> (value: TensorFloat, 
                                                                   gradientChain: (TensorFloat) -> (TensorFloat, TensorFloat, TensorFloat)) {
@@ -140,7 +140,7 @@ public extension Tensor where Scalar: TensorFlowFloatingPoint {
 
 
 // loss function
-func meanSquaredErrorAndGradient(yHat: TensorFloat, y: TensorFloat) -> (value: TensorFloat,
+public func meanSquaredErrorAndGradient(yHat: TensorFloat, y: TensorFloat) -> (value: TensorFloat,
                                                                         gradient: () -> TensorFloat) {
     assert(yHat.shape == y.shape, "Expected inputs to be the same size")
     let error = yHat - y
