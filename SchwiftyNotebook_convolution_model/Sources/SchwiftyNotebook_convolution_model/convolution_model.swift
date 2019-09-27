@@ -126,7 +126,7 @@ func linearCombinationAndGradient(inputTensor: TensorFloat,
                            })
 }
 
-extension Tensor where Scalar: TensorFlowFloatingPoint {
+public extension Tensor where Scalar: TensorFlowFloatingPoint {
     init(kaimingUniform shape: TensorShape, negativeSlope: Double = 1.0) {
         // Assumes Leaky ReLU nonlinearity
         let gain = Scalar.init(TensorFlow.sqrt(2.0 / (1.0 + TensorFlow.pow(negativeSlope, 2))))
