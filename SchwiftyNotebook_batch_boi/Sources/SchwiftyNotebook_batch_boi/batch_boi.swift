@@ -12,8 +12,8 @@ import SchwiftyNotebook_auto_diffy
 import Python
 
 public struct DataBunch<T> where T: TensorGroup {
-    let trainingDataset: Dataset<T>
-    let validationDataset: Dataset<T>
+    public let trainingDataset: Dataset<T>
+    public let validationDataset: Dataset<T>
 }
 
 public func normalizeFeatureTensor(featureTensor: TensorFloat) -> TensorFloat {
@@ -23,8 +23,8 @@ public func normalizeFeatureTensor(featureTensor: TensorFloat) -> TensorFloat {
 }
 
 public struct UsedCarBatch {
-    let features: TensorFloat
-    let labels: TensorFloat
+    public let features: TensorFloat
+    public let labels: TensorFloat
 }
 
 extension UsedCarBatch: TensorGroup {
@@ -109,9 +109,7 @@ public func fetchUsedCarDataBunch(validationSize: Double = 0.2,
     let splitLabels = usedCarLabelsTensor
                             .split(sizes: Tensor<Int32>([validationDatasetSize, trainingDataSetSize]), 
                                    alongAxis: 0)
-    //todo create datases
-    // put in bunch
-    // return bunch
+    
     let validationDataSet = createDataSet(featureTensor: splitFeatures[0],
                                         labelTensor: splitLabels[0], batchSize: batchSize)
     let trainingDataSet = createDataSet(featureTensor: splitFeatures[1],
