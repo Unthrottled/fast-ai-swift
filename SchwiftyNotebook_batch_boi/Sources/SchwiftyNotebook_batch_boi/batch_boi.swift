@@ -63,8 +63,8 @@ public extension Dataset where Element == UsedCarBatch {
     }
 }
 
-let carDataYCSV = "/home/ubuntu/.machine-learning/data/car_stuff/craigslist_labels.csv"
-let carDataXCSV = "/home/ubuntu/.machine-learning/data/car_stuff/craigslist_x_data.csv"
+let carDataYCSV = "/home/ubuntu/.machine-learning/data/car_stuff/pakistan_car_labels.csv"
+let carDataXCSV = "/home/ubuntu/.machine-learning/data/car_stuff/pakistan_car_x_data.csv"
 
 public let numpy = Python.import("numpy")
 
