@@ -9,6 +9,8 @@ file to edit: batch_boi.ipynb
 import TensorFlow
 import SchwiftyNotebook_auto_diffy
 
+import Python
+
 public struct DataBunch<T> where T: TensorGroup {
     let trainingDataset: Dataset<T>
     let validationDataset: Dataset<T>
