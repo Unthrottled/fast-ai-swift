@@ -63,6 +63,26 @@ public extension Dataset where Element == UsedCarBatch {
     }
 }
 
+public func reScaleTensor(tensorToRescale: TensorFloat) -> TensorFloat {
+    let maxBoi = TensorFloat([tensorToRescale.max()])
+    let minBoi = TensorFloat([tensorToRescale.min()])
+    return (tensorToRescale - minBoi) / (maxBoi - minBoi)
+}
+
+public func reScaleFeatures(featureTensor: TensorFloat, catVars: Set<Int>, contVars: Set<Int>) -> TensorFloat {
+    return TensorFloat(stacking: featureTensor.unstacked(alongAxis: 1).enumerated()
+                                               .map { (index, tensi) in 
+                                                     if(catVars.contains(index)){
+                                                        return reScaleTensor(tensorToRescale: tensi)
+                                                     } else if (contVars.contains(index)){
+                                                       return normalizeTensor(tensor: tensi) 
+                                                     } else {
+                                                       return tensi
+                                                     }
+                                               }, 
+                       alongAxis: 1)
+}
+
 let carDataYCSV = "/home/ubuntu/.machine-learning/data/car_stuff/pakistan_car_labels.csv"
 let carDataXCSV = "/home/ubuntu/.machine-learning/data/car_stuff/pakistan_car_x_data.csv"
 
@@ -84,10 +104,13 @@ public func fetchUsedCarDataBunch(validationSize: Double = 0.2,
     let usedCarFeaturesArray = numpy.loadtxt(carDataXCSV, 
                                 delimiter: ",", 
                                 skiprows: 1, 
-                                usecols: Array(1...10), 
+                                usecols: Array(1...8), 
                                 dtype: Float.numpyScalarTypes.first!)
-    let usedCarFeatureTensor = normalizeFeatureTensor(featureTensor: 
-                                                      TensorFloat(numpy: usedCarFeaturesArray)!)
+    let categoricalVariableSet: Set = [0,1,2,3,4,5]
+    let continousVariableSet: Set = [6,7]
+    let usedCarFeatureTensor = reScaleFeatures(featureTensor: TensorFloat(numpy: usedCarFeaturesArray)!, 
+                                               catVars: categoricalVariableSet, 
+                                               contVars: continousVariableSet)
     
     let usedCarPrices = numpy.loadtxt(carDataYCSV, 
                                 delimiter: ",", 
