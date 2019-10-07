@@ -11,15 +11,15 @@ import SchwiftyNotebook_auto_diffy
 
 import Python
 
-public struct DataBunch<T> where T: TensorGroup {
-    public let trainingDataset: Dataset<T>
-    public let validationDataset: Dataset<T>
-}
-
 public func normalizeFeatureTensor(featureTensor: TensorFloat) -> TensorFloat {
     return TensorFloat(stacking: featureTensor.unstacked(alongAxis: 1)
                                                .map { normalizeTensor(tensor: $0) }, 
                        alongAxis: 1)
+}
+
+public struct DataBunch<T> where T: TensorGroup {
+    public let trainingDataset: Dataset<T>
+    public let validationDataset: Dataset<T>
 }
 
 public struct UsedCarBatch {
