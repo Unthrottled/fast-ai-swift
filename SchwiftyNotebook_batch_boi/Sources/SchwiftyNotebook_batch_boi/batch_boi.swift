@@ -106,8 +106,8 @@ public func fetchUsedCarDataBunch(validationSize: Double = 0.2,
                                 skiprows: 1, 
                                 usecols: Array(1...8), 
                                 dtype: Float.numpyScalarTypes.first!)
-    let categoricalVariableSet: Set = [0,1,2,3,4,5]
-    let continousVariableSet: Set = [6,7]
+    let categoricalVariableSet: Set = [0,1,2,3,4,5,6,7]
+    let continousVariableSet: Set = [-1]
     let usedCarFeatureTensor = reScaleFeatures(featureTensor: TensorFloat(numpy: usedCarFeaturesArray)!, 
                                                catVars: categoricalVariableSet, 
                                                contVars: continousVariableSet)
