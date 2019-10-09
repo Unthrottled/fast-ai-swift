@@ -19,9 +19,9 @@ func computeCosignPosition(start: Float,
 }
 
 public func createCosignSchedulerForRange(start: Float, stop: Float) -> (Float) -> Float {
-    return { computeCosignPosition(start: start, 
+    return { (timePosition: Float) -> Float in computeCosignPosition(start: start, 
                                    stop: stop, 
-                                   timePosition: $0) }
+                                   timePosition: timePosition) }
 }
 
 public extension  Double {
@@ -30,7 +30,7 @@ public extension  Double {
     }
 }
 
-func aggregateSchedulers(schedulers: [(Float)->Float],
+public func aggregateSchedulers(schedulers: [(Float) -> Float],
                          appliedPercentages: [Float]) -> (Float) -> Float {
     assert(appliedPercentages.reduce(0.0, { $0 + $1 }) == 1.0.float, 
            "Expected applied precentages to add up to one")
@@ -53,5 +53,7 @@ func aggregateSchedulers(schedulers: [(Float)->Float],
 }
 
 public func createDefaultScheduler() -> (Float) -> Float {
-    
+    return aggregateSchedulers(schedulers: [createCosignSchedulerForRange(start: 0.3.float, stop: 0.6.float),
+                                               createCosignSchedulerForRange(start: 0.6.float, stop: 0.1.float)],
+                                              appliedPercentages: [0.3.float, 0.7.float])
 }
