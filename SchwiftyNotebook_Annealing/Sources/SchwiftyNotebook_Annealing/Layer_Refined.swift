@@ -35,9 +35,18 @@ public struct RuntimeError: Error {
     }
 }
 
+public protocol ModelParameter  {
+    
+    func forwardPass(inputTensor: TensorFloat) -> (TensorFloat, ModelParameter)
+    
+    func apply(_ inputTensor: TensorFloat) -> TensorFloat 
+    
+    func backwardPass(ddx: TensorFloat, hyperParameters: HyperParameter) -> (TensorFloat, ModelParameter)
+}
+
 public typealias ThreeInputGradient = (TensorFloat) -> (TensorFloat, TensorFloat, TensorFloat)
 
-public struct DenseLayer {
+public struct DenseLayer: ModelParameter {
     let activationFunction: SingleInputDifferentiable<TensorFloat>
     let weightParameter: TensorFloat
     let biasParameter: TensorFloat
@@ -70,7 +79,7 @@ public struct DenseLayer {
         self.gradientChain = { (x: TensorFloat)  in (TensorFloat([1]), TensorFloat([1]), TensorFloat([1]))}
     }
 
-    func forwardPass(inputTensor: TensorFloat) -> (TensorFloat, DenseLayer) {
+    public func forwardPass(inputTensor: TensorFloat) -> (TensorFloat, ModelParameter) {
         let (parameterOutput, parameterGradientChain) =
           linearCombinationAndGradient(inputTensor: inputTensor,
                                        weightParameter: self.weightParameter,
@@ -81,7 +90,7 @@ public struct DenseLayer {
                                        gradientChain: {ddx in parameterGradientChain(activationsGradientChain(ddx))}))
     }
 
-    public func callAsFunction(_ inputTensor: TensorFloat) -> TensorFloat {
+    public func apply(_ inputTensor: TensorFloat) -> TensorFloat {
         let parameterOutput =
           linearCombination(inputs: inputTensor,
                                        weights: self.weightParameter,
@@ -90,11 +99,11 @@ public struct DenseLayer {
         return activations
     }
 
-    func backwardPass(ddx: TensorFloat, hyperParams: HyperParameter) -> (TensorFloat, DenseLayer) {
+    public func backwardPass(ddx: TensorFloat, hyperParameters: HyperParameter) -> (TensorFloat, ModelParameter) {
         let (ddxInput, ddxParameter, ddxBias) = self.gradientChain(ddx)
         return (ddxInput, DenseLayer(activationFunction: activationFunction,
-                                    weightParameter: self.weightParameter - hyperParams.learningRate * ddxParameter,
-                                    biasParameter: self.biasParameter - hyperParams.learningRate * ddxBias,
+                                    weightParameter: self.weightParameter - hyperParameters.learningRate * ddxParameter,
+                                    biasParameter: self.biasParameter - hyperParameters.learningRate * ddxBias,
                                     gradientChain: self.gradientChain))
     }
 }
