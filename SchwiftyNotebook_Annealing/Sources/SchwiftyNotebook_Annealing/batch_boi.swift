@@ -17,7 +17,7 @@ public func normalizeFeatureTensor(featureTensor: TensorFloat) -> TensorFloat {
                        alongAxis: 1)
 }
 
-public struct DataBunch<T> where T: TensorGroup {
+public struct DataBunch_dep<T> where T: TensorGroup {
     public let trainingDataset: Dataset<T>
     public let validationDataset: Dataset<T>
 }
