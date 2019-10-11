@@ -100,7 +100,7 @@ func createDataSet(featureTensor: TensorFloat,
 
 public func fetchUsedCarDataBunch(validationSize: Double = 0.2,
                              batchSize: Int = 1028
-                            ) -> DataBunch<UsedCarBatch> {
+                            ) -> DataBunch_dep<UsedCarBatch> {
     let usedCarFeaturesArray = numpy.loadtxt(carDataXCSV, 
                                 delimiter: ",", 
                                 skiprows: 1, 
@@ -137,5 +137,5 @@ public func fetchUsedCarDataBunch(validationSize: Double = 0.2,
                                         labelTensor: splitLabels[0], batchSize: batchSize)
     let trainingDataSet = createDataSet(featureTensor: splitFeatures[1],
                                         labelTensor: splitLabels[1], batchSize: batchSize)
-    return DataBunch(trainingDataset: trainingDataSet, validationDataset: validationDataSet)
+    return DataBunch_dep(trainingDataset: trainingDataSet, validationDataset: validationDataSet)
 }
