@@ -16,11 +16,7 @@ public typealias SingleInputDifferentiable<T> = (T) -> SingleValueAndGradientCha
 public let identititySVGC: SingleInputDifferentiable<TensorFloat> = { x in (value: x, gradientChain: { y in y }) }
 
 public struct HyperParameter {
-    let learningRate: Float
-    
-    init(learningRate: Float){
-        self.learningRate = learningRate
-    }
+    public let learningRate: Float
 }
 
 public struct RuntimeError: Error {
@@ -70,7 +66,7 @@ public struct DenseLayer: ModelParameter {
         self.gradientChain = gradientChain
     }
 
-    init(inputSize: Int,
+    public init(inputSize: Int,
          outputSize: Int,
          activationFunction: @escaping SingleInputDifferentiable<TensorFloat> = identititySVGC){
         self.activationFunction = activationFunction
