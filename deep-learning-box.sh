@@ -57,26 +57,30 @@ cd Downloads/
 
 # Driver install
 #####################################
-# should not print anything
-lsmod | grep nouveau 
 
-wget https://developer.nvidia.com/compute/cuda/10.0/Prod/local_installers/cuda_10.0.130_410.48_linux
-wget http://developer.download.nvidia.com/compute/cuda/10.0/Prod/patches/1/cuda_10.0.130.1_linux.run
-#Don't need the display drivers or OpenGL library
-sudo zsh cuda_10.0.130_410.48_linux
-sudo zsh cuda_10.0.130.1_linux.run
-echo /usr/local/cuda/lib64 | sudo tee -a /etc/ld.so.conf 
-sudo ldconfig
-echo 'export PATH=/usr/local/cuda/bin:$PATH' >> ~/.zshrc
-sudo reboot
+# Add NVIDIA package repositories
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-repo-ubuntu1804_10.0.130-1_amd64.deb
+sudo dpkg -i cuda-repo-ubuntu1804_10.0.130-1_amd64.deb
+sudo apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
+sudo apt-fast update
+wget http://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64/nvidia-machine-learning-repo-ubuntu1804_1.0.0-1_amd64.deb
+sudo apt install ./nvidia-machine-learning-repo-ubuntu1804_1.0.0-1_amd64.deb
+sudo apt-fast update
 
-wget http://files.fast.ai/files/cudnn-10.0-linux-x64-v7.6.1.34.tgz
-tar xf cudnn-10*.tgz
+# Install NVIDIA driver
+sudo apt-fast install --no-install-recommends nvidia-driver-418
+# Reboot. Check that GPUs are visible using the command: nvidia-smi
 
-sudo cp cuda/include/cudnn.h /usr/local/cuda/include
-sudo cp -P cuda/lib64/libcudnn* /usr/local/cuda/lib64
-sudo chmod a+r /usr/local/cuda/include/cudnn.h /usr/local/cuda/lib64/libcudnn*
-sudo ldconfig
+# Install development and runtime libraries (~4GB)
+sudo apt-fast install --no-install-recommends \
+    cuda-10-0 \
+    libcudnn7=7.6.2.24-1+cuda10.0  \
+    libcudnn7-dev=7.6.2.24-1+cuda10.0
+
+
+# Install TensorRT. Requires that libcudnn7 is installed above.
+sudo apt-fast install -y --no-install-recommends libnvinfer5=5.1.5-1+cuda10.0 \
+    libnvinfer-dev=5.1.5-1+cuda10.0
 
 #####################################
 
